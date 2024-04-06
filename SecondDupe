@@ -1,0 +1,143 @@
+-- Load libraries
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+-- Create window
+local Window = Fluent:CreateWindow({
+    Title = "Popit Dupe Script    " .. Fluent.Version,
+    SubTitle = "            Now Made by @farxss xdxd ",
+    TabWidth = 140,
+    Size = UDim2.fromOffset(450, 410),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+-- Tabs
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" }),
+    Credits = Window:AddTab({ Title = "Credits", Icon = "" })
+}
+
+-- Main tab content
+local Input = Tabs.Main:AddInput("Input", {
+    Title = "Name of item",
+    Default = "",
+    Placeholder = "Name of item",
+    Numeric = false,
+    Finished = false,
+    Callback = function(arg)
+        _G.C = arg
+    end
+})
+
+local Toggle = Tabs.Main:AddToggle("Collect", { Title = "Collect xd", Default = false })
+
+Toggle:OnChanged(function()
+    _G.banana = Toggle.Value
+
+    if _G.banana then
+        while _G.banana do
+            local args = {
+                [1] = _G.C
+            }
+
+            game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("Equip"):FireServer(unpack(args))
+            wait(0)
+        end
+    else
+        _G.banana = false
+    end
+end)
+
+Toggle:SetValue(false)
+
+local ToggleeCollector = Tabs.Main:AddToggle("Duplicate", { Title = "Dupe xd", Default = false })
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+
+local function equipAllTools(player)
+    local character = player.Character
+    if character then
+        for _, tool in pairs(player.Backpack:GetChildren()) do
+            if tool:IsA("Tool") then
+                tool.Parent = character
+            end
+        end
+    end
+end
+
+local function performRemoteCall(itemName)
+    local args = {
+        [1] = itemName
+    }
+
+    ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("Drop"):FireServer(unpack(args))
+end
+
+local function runScript()
+    while ToggleeCollector.Value do
+        local localPlayer = Players.LocalPlayer
+        if localPlayer then
+            equipAllTools(localPlayer)
+            performRemoteCall(_G.C)
+
+            local targetCFrame = CFrame.new(
+                147707.703, -88.4722672, 194.146698,
+                0.967871785, 3.5008501e-08, 0.251444221,
+                -6.04740169e-09, 1, -1.15951728e-07,
+                -0.251444221, 1.1070582e-07, 0.967871785
+            )
+
+            local droppedItems = Workspace:FindFirstChild("Dropped")
+            if droppedItems then
+                for i = 1, math.min(15, #droppedItems:GetChildren()) do
+                    local child = droppedItems:GetChildren()[i]
+                    if child and child:IsA("Model") then
+                        local handle = child:FindFirstChild("Handle")
+                        local patato = child:FindFirstChild("patato") or child:FindFirstChild("potato")
+                        local nestedPart = child:FindFirstChild("NEW_potato") and child.NEW_potato:FindFirstChild("potato")
+
+                        if handle and handle:IsA("BasePart") then
+                            handle.CFrame = targetCFrame
+                        end
+
+                        if patato and patato:IsA("BasePart") then
+                            patato.CFrame = targetCFrame
+                        end
+
+                        if nestedPart and nestedPart:IsA("BasePart") then
+                            nestedPart.CFrame = targetCFrame
+                        end
+                    end
+                end
+            end
+        end
+
+        wait(0.0001)
+    end
+end
+
+ToggleeCollector:OnChanged(runScript)
+
+
+local ToggleEnableInventory = Tabs.Main:AddToggle("Enable Inventory", { Title = "Enable/Disable Inventory", Default = false })
+ 
+ToggleEnableInventory:OnChanged(function()
+    if ToggleEnableInventory.Value then
+        game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, true)
+    else
+        game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
+    end
+end)
+ 
+ToggleEnableInventory:SetValue(false)
+
+-- Credits tab content
+local Label = Tabs.Credits:AddLabel("Credits", {
+    Text = "Roblox: UN55525270 // Discord: @farxss",
+    Size = UDim2.new(1, 0, 1, 0)
+})
