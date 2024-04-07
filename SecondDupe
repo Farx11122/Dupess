@@ -6,7 +6,7 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 -- Create window
 local Window = Fluent:CreateWindow({
     Title = "Popit Dupe Script    " .. Fluent.Version,
-    SubTitle = "            Now Made by @farxss xdxd ",
+    SubTitle = "            Made by @farxss xd ",
     TabWidth = 140,
     Size = UDim2.fromOffset(450, 410),
     Acrylic = true,
@@ -151,7 +151,7 @@ local ItemInput = Tabs.Misc:AddInput("ItemInput", {
 })
 
 -- Misc kısmındaki Toggle (Auto Drop ve Equip için)
-local ToggleAutoDrop = Tabs.Misc:AddToggle("ToggleAutoDrop", { Title = "Otomatik Düşürmeyi ve Equip'i Başlat", Default = false })
+local ToggleAutoDrop = Tabs.Misc:AddToggle("ToggleAutoDrop", { Title = "AutoDrop", Default = false })
 
 local function autoDropAndEquipLoop()
     while ToggleAutoDrop.Value do
