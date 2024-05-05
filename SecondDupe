@@ -7,5 +7,5 @@ if gameId == popItGameId then
 elseif gameId == petsGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/PetTrading"))()
 else
-    warn("Bu oyunda desteklenen bir oyun değil.")
+    warn("Not this game support mexd.")
 end
