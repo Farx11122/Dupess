@@ -1,11 +1,11 @@
-local ID = game.PlaceId
-if ID == 7346416636 then
-    warn("Pop It Trading has been Loaded!")
-  loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
+local gameId = game.PlaceId
+local popItGameId = 7346416636
+local petsGameId = 7903991471
+
+if gameId == popItGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
+elseif gameId == petsGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/PetTrading"))()
 else
-if ID == 7903991471 then
-    warn("Pet Trading has been Loaded!")
-  loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/PetTrading"))()
-else
-    print("Unknown PlaceId:", ID)
+    warn("Bu oyunda desteklenen bir oyun değil.")
 end
