@@ -4,6 +4,7 @@ local petsGameId = 7903991471
 local carsGameId = 8216162783
 local mvsdGameId = 12355337193
 local toysGameId = 7503115095
+local AdminrngGameId = 17461365630
 
 if gameId == popItGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
@@ -15,6 +16,8 @@ elseif gameId == mvsdGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/MurderersVsSherrifsMADEBY4Farx"))()
 elseif gameId == toysGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/toys"))()
+elseif gameId == AdminrngGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/AdminRNG"))()
 else
     warn("Not this game support mexd.")
 end
