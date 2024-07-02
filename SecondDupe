@@ -5,7 +5,7 @@ local carsGameId = 8216162783
 local mvsdGameId = 12355337193
 local toysGameId = 7503115095
 local AdminrngGameId = 17461365630
-local mm2 = 142823291
+local mm2GameId = 142823291
 
 if gameId == popItGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
