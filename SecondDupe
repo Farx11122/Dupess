@@ -6,6 +6,7 @@ local mvsdGameId = 12355337193
 local toysGameId = 7503115095
 local AdminrngGameId = 17461365630
 local mm2GameId = 142823291
+local DressTrdGameId = 17893531862
 
 if gameId == popItGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
@@ -21,6 +22,8 @@ elseif gameId == AdminrngGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/AdminRNG"))()
 elseif gameId == mm2GameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/Murderer%20Myster%202"))()
+elseif gameId == DressTrdGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DressTrad"))()
 else
-    warn("Not this game support mexd.")
+    warn("Sorry this game not supported. try to join supported games like...")
 end
