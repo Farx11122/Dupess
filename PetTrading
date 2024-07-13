@@ -1,4 +1,3 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Hi/main/PetTrd"))() 
 wait(1)
-wait(1)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Hi/main/Upgrader"))()
