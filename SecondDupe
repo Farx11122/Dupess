@@ -7,6 +7,7 @@ local toysGameId = 7503115095
 local AdminrngGameId = 17461365630
 local mm2GameId = 142823291
 local DressTrdGameId = 17893531862
+local AurasTrdGameId = 18198920698
 
 if gameId == popItGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
@@ -24,6 +25,8 @@ elseif gameId == mm2GameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/Murderer%20Myster%202"))()
 elseif gameId == DressTrdGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DressTrad"))()
+elseif gameId == AurasTrdGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/AurasTrd"))()
 else
-    warn("Sorry this game not supported. try to join supported games like...")
+    warn("Sorry this game not supported. try to join supported games. More in discord.")
 end
