@@ -2,8 +2,7 @@
 -- One for blacklist
 -- By 4Farx
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/U0/main/1-1"))()
-wait(1)
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupe/main/Dupe-Popit"))()
 
 
