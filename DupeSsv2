@@ -3,4 +3,5 @@
 -- By 4Farx
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupe/main/Dupe-Popit"))()
+wait(1)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Thealtforluasxd/Animations/main/Spam_jump"))()
