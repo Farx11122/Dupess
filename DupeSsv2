@@ -5,6 +5,3 @@
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupe/main/Dupe-Popit"))()
 
-wait(1)
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/U0/main/Admins"))()
