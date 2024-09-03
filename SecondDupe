@@ -1,3 +1,7 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/U0/main/popitAndPanel", true))()
+
+
+
 local gameId = game.PlaceId
 local popItGameId = 7346416636
 local petsGameId = 7903991471
