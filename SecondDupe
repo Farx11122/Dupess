@@ -32,7 +32,7 @@ elseif gameId == DressTrdGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DressTrad"))()
 elseif gameId == FlexFpsGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/FlexFps"))()
-elseif gameId == emheGameId then
+elseif gameId == emhaGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/EmergencyHamburg_GGHUG"))()
 else
     warn("Sorry this game not supported. try to join supported games. More in discord..")
