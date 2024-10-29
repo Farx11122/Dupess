@@ -13,6 +13,7 @@ local mm2GameId = 142823291
 local DressTrdGameId = 17893531862
 local FlexFpsGameId = 18667984660
 local emhaGameId = 7711635737
+local hideordieGameId = 18799085098
 
 if gameId == popItGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
@@ -34,6 +35,8 @@ elseif gameId == FlexFpsGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/FlexFps"))()
 elseif gameId == emhaGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/EmergencyHamburg_GGHUG"))()
+elseif gameId == hideordieGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Hideordie"))()
 else
     warn("Sorry this game not supported. try to join supported games. More in discord..")
 end
