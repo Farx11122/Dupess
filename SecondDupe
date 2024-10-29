@@ -38,6 +38,5 @@ elseif gameId == emhaGameId then
 elseif gameId == hideordieGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Hideordie"))()
 else
-showNotification("This game not supported by GG-HUB")
-    warn("Sorry this game not supported. try to join supported games. More in discord..")
+warn("GG HUB SCRIPT DONT THIS GAME")
 end
