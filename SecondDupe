@@ -38,6 +38,8 @@ elseif gameId == emhaGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/EmergencyHamburg_GGHUG"))()
 elseif gameId == hideordieGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Hideordie"))()
+elseif gameId == princesstycGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/PrincessTycoon"))()
 else
 warn("GG HUB SCRIPT DONT THIS GAME")
 end
