@@ -16,6 +16,7 @@ local emhaGameId = 7711635737
 local hideordieGameId = 18799085098
 local princesstycGameId = 3804735158
 local SupermarketsimGameId = 96462622512177
+local beapaperairplaneGameId = 109543391562036
 
 if gameId == popItGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
