@@ -15,6 +15,7 @@ local FlexFpsGameId = 18667984660
 local emhaGameId = 7711635737
 local hideordieGameId = 18799085098
 local princesstycGameId = 3804735158
+local SupermarketsimGameId = 96462622512177
 
 if gameId == popItGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
@@ -40,6 +41,8 @@ elseif gameId == hideordieGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Hideordie"))()
 elseif gameId == princesstycGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/PrincessTycoon"))()
+elseif gameId == SupermarketsimGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Supermarketsim"))()
 else
 warn("GG HUB SCRIPT DONT THIS GAME")
 end
