@@ -17,6 +17,7 @@ local hideordieGameId = 18799085098
 local princesstycGameId = 3804735158
 local SupermarketsimGameId = 96462622512177
 local beapaperairplaneGameId = 109543391562036
+local beacentipedeGameId = 18209375211
 
 if gameId == popItGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
@@ -46,6 +47,9 @@ elseif gameId == SupermarketsimGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Supermarketsim"))()
 elseif gameId == beapaperairplaneGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/beapaperairplane"))()
+elseif gameId == beacentipedeGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/BeAcentipede"))()
+
 
 else
 warn("GG HUB SCRIPT DONT THIS GAME")
