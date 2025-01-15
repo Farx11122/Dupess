@@ -20,6 +20,7 @@ local beapaperairplaneGameId = 109543391562036
 local beacentipedeGameId = 18209375211
 local the1mglassbirdgeGameId = 87854376962069
 local dropperincTycoonGameId = 92775789555257
+local SurvivenightmareXChristianXsjGameId = 16896041188
 
 if gameId == popItGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
@@ -55,6 +56,8 @@ elseif gameId == the1mglassbirdgeGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/The_1m_Glass_Bridge"))()
 elseif gameId == dropperincTycoonGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/DropperIncrementalTycoon"))()
+elseif gameId == SurvivenightmareXChristianXsjGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Survive_nightmare_XChristianXsj"))()
 else
 warn("GG HUB SCRIPT DONT THIS GAME")
 end
