@@ -21,7 +21,9 @@ local beacentipedeGameId = 18209375211
 local the1mglassbirdgeGameId = 87854376962069
 local dropperincTycoonGameId = 92775789555257
 local SurvivenightmareXChristianXsjGameId = 16896041188
+-- Bof
 local BloodOfPunchGameId = 86230775293861
+local 3GameId = 137535317402998
 
 if gameId == popItGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
@@ -59,8 +61,13 @@ elseif gameId == dropperincTycoonGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/DropperIncrementalTycoon"))()
 elseif gameId == SurvivenightmareXChristianXsjGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Survive_nightmare_XChristianXsj"))()
+-- Blood Of Punch Worlds!!
+
 elseif gameId == BloodOfPunchGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Punch_Of_Blood"))()
+elseif gameId == 3GameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Punch_Of_Blood"))()
+
 else
 warn("GG HUB SCRIPT DONT THIS GAME")
 end
