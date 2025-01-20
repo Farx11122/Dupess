@@ -71,6 +71,8 @@ elseif gameId == BloodOfPunchGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Punch_Of_Blood"))()
 elseif gameId == w3GameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Punch_Of_Blood"))()
+elseif gameId == w2GameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Punch_Of_Blood"))()
 
 else
 warn("GG HUB SCRIPT DONT THIS GAME")
