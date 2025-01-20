@@ -25,6 +25,7 @@ local SurvivenightmareXChristianXsjGameId = 16896041188
 -- Bof
 
 local BloodOfPunchGameId = 86230775293861
+local w2GameId = 119696268487200
 local w3GameId = 137535317402998
 
 if gameId == popItGameId then
