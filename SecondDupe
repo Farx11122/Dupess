@@ -25,6 +25,7 @@ local SurvivenightmareXChristianXsjGameId = 16896041188
 -- Bof
 
 local BloodOfPunchGameId = 86230775293861
+local w1GameId = 125067579372958
 local w2GameId = 119696268487200
 local w3GameId = 137535317402998
 
@@ -73,7 +74,9 @@ elseif gameId == w3GameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Punch_Of_Blood"))()
 elseif gameId == w2GameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Punch_Of_Blood"))()
+elseif gameId == w1GameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Punch_Of_Blood"))()
 
 else
-warn("GG HUB SCRIPT DONT THIS GAME")
+warn("GG Hub does not support this game | https://discord.gg/WXjY7KJWa6")
 end
