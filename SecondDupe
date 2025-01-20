@@ -29,6 +29,7 @@ local w1GameId = 125067579372958
 local w2GameId = 119696268487200
 local w3GameId = 137535317402998
 local w4GameId = 78606308971979
+local w5GameId = 114268110379653
 
 if gameId == popItGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
@@ -79,6 +80,9 @@ elseif gameId == w1GameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Punch_Of_Blood"))()
 elseif gameId == w4GameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Punch_Of_Blood"))()
+elseif gameId == w5GameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Punch_Of_Blood"))()
+
 
 else
 warn("GG Hub does not support this game | https://discord.gg/WXjY7KJWa6")
