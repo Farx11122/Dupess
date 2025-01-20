@@ -21,6 +21,7 @@ local beacentipedeGameId = 18209375211
 local the1mglassbirdgeGameId = 87854376962069
 local dropperincTycoonGameId = 92775789555257
 local SurvivenightmareXChristianXsjGameId = 16896041188
+local PunchOfBloodGameId = 86230775293861
 
 if gameId == popItGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/main/DupeSsv2"))()
@@ -58,6 +59,8 @@ elseif gameId == dropperincTycoonGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/DropperIncrementalTycoon"))()
 elseif gameId == SurvivenightmareXChristianXsjGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Survive_nightmare_XChristianXsj"))()
+elseif gameId == PunchOfBloodGameId then
+    loadstring(game:HttpGet("ez"))()
 else
 warn("GG HUB SCRIPT DONT THIS GAME")
 end
