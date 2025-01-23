@@ -21,6 +21,7 @@ local beacentipedeGameId = 18209375211
 local the1mglassbirdgeGameId = 87854376962069
 local dropperincTycoonGameId = 92775789555257
 local SurvivenightmareXChristianXsjGameId = 16896041188
+local CrabGameGameId = 124116468050395
 
 -- Bof
 
@@ -83,6 +84,10 @@ elseif gameId == w4GameId then
 elseif gameId == w5GameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Punch_Of_Blood"))()
 
+-- bundan sonrasi normal oyunlari ekleyerek devam et
+
+elseif gameId == CrabGameGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Crab_game"))()
 
 else
 warn("GG Hub does not support this game | https://discord.gg/WXjY7KJWa6")
