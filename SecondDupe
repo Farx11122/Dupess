@@ -22,6 +22,7 @@ local the1mglassbirdgeGameId = 87854376962069
 local dropperincTycoonGameId = 92775789555257
 local SurvivenightmareXChristianXsjGameId = 16896041188
 local CrabGameGameId = 124116468050395
+local SquidGameSeason2GameId = 94663523641506 -- in round not lobby!
 
 -- Bop blodofpunch
 
@@ -88,6 +89,8 @@ elseif gameId == w5GameId then
 
 elseif gameId == CrabGameGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Crab_game"))()
+elseif gameId == SquidGameSeason2GameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Squid%20Game%20(Season%202)"))()
 
 else
 warn("GG Hub does not support this game | https://discord.gg/WXjY7KJWa6")
