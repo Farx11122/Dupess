@@ -93,7 +93,7 @@ elseif gameId == CrabGameGameId then
 elseif gameId == SquidGameSeason2GameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Squid%20Game%20(Season%202)"))()
 elseif gameId == makevideostobecomerichandfamousGameId then
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Squid%20Game%20(Season%202)"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/make%20videos%20to%20become%20rich%20and%20famous"))()
 
 else
 warn("GG Hub does not support this game | https://discord.gg/WXjY7KJWa6")
