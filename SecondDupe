@@ -25,6 +25,10 @@ local CrabGameGameId = 124116468050395
 local SquidGameSeason2GameId = 94663523641506 -- in round not lobby!
 local makevideostobecomerichandfamousGameId = 120444489340872
 
+-- spindown Vc And Normal Lobby
+local spindownGameId = 17863864204
+local vcLobbySpindownGameId =123843608435731
+
 -- Bop blodofpunch
 
 local BloodOfPunchGameId = 86230775293861
@@ -94,6 +98,10 @@ elseif gameId == SquidGameSeason2GameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Squid%20Game%20(Season%202)"))()
 elseif gameId == makevideostobecomerichandfamousGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/make%20videos%20to%20become%20rich%20and%20famous"))()
+elseif gameId == spindownGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Spindown"))()
+elseif gameId == vcLobbySpindownGameId then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Spindown"))()
 
 else
 warn("GG Hub does not support this game | https://discord.gg/WXjY7KJWa6")
