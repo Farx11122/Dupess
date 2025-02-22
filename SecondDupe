@@ -26,8 +26,8 @@ local SquidGameSeason2GameId = 94663523641506 -- in round not lobby!
 local makevideostobecomerichandfamousGameId = 120444489340872
 
 -- dead rails lobby and game
-local deadrailslobbyGameId = 70876832253163
-local deadrailsGameId = 116495829188952
+local deadrailslobbyGameId = 116495829188952
+local deadrailsGameId = 70876832253163
 
 -- spindown Vc And Normal Lobby
 local spindownGameId = 17863864204
