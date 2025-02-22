@@ -1,0 +1,4 @@
+game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "!! WARNING !!",
+            Text = "Script does not work in the lobby, create a party and teleport to main game/round and continue using the script!"
+        })
