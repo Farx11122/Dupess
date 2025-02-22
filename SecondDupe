@@ -108,7 +108,7 @@ elseif gameId == vcLobbySpindownGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Spindown"))()
 elseif gameId == deadrailslobbyGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Premium/refs/heads/main/Dead_rails_notif"))()
-elseif gameId == deadrailslobbyGameId then
+elseif gameId == deadrailsGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Dead%20rails"))()
 
 else
