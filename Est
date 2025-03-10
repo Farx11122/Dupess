@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roblox GUI Creator</title>
+  <style>
+    :root {
+      --primary-color: #0074e4;
+      --secondary-color: #00a2ff;
+      --dark-color: #333;
+      --light-color: #f4f4f4;
+      --danger-color: #dc3545;
+      --success-color: #28a745;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #2c2c2c;
+      color: white;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+    
+    .sidebar {
+      width: 250px;
+      height: 100%;
+      background-color: #1f1f1f;
+      padding: 1rem;
+      overflow-y: auto;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #3a3a3a;
+      transition: transform 0.3s ease;
+    }
+    
+    .sidebar-mobile-toggle {
+      display: none;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1000;
+      background: var(--primary-color);
+      border: none;
+      color: white;
+      padding: 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .section-title {
+      font-size: 1rem;
+      margin: 1rem 0 0.5rem;
+      color: #bbb;
+    }
+    
+    .elements-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .element-btn {
+      padding: 8px;
+      background-color: #333;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      font-size: 0.8rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .element-btn:hover {
+      background-color: #444;
+    }
+    
+    .element-btn i {
+      font-size: 1.2rem;
+    }
+    
+    .workspace {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    .toolbar {
+      height: 50px;
+      background-color: #282828;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      border-bottom: 1px solid #3a3a3a;
+      gap: 10px;
+    }
+    
+    .toolbar-btn {
+      padding: 6px 12px;
+      background-color: #333;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+    
+    .toolbar-btn:hover {
+      background-color: #444;
+    }
+    
+    .toolbar-btn.active {
+      background-color: var(--primary-color);
+    }
+    
+    .toolbar-separator {
+      width: 1px;
+      height: 30px;
+      background-color: #3a3a3a;
+      margin: 0 5px;
+    }
+    
+    .editor-area {
+      flex-grow: 1;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .canvas-container {
+      flex-grow: 1;
+      position: relative;
+      overflow: auto;
+      background-color: #1c1c1c;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .canvas {
+      background-color: #333;
+      position: relative;
+      width: 350px;
+      height: 600px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      transform-origin: center;
+    }
+    
+    .canvas-element {
+      position: absolute;
+      background-color: #444;
+      border: 1px solid #555;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      user-select: none;
+      box-sizing: border-box;
+    }
+    
+    .canvas-element.selected {
+      outline: 2px solid var(--primary-color);
+    }
+    
+    .canvas-element.in-group {
+      outline: 1px dashed var(--secondary-color);
+    }
+    
+    .resize-handle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border: 1px solid #555;
+    }
+    
+    .resize-handle.top-left {
+      top: -5px;
+      left: -5px;
+      cursor: nwse-resize;
+    }
+    
+    .resize-handle.top-right {
+      top: -5px;
+      right: -5px;
+      cursor: nesw-resize;
+    }
+    
+    .resize-handle.bottom-left {
+      bottom: -5px;
+      left: -5px;
+      cursor: nesw-resize;
+    }
+    
+    .resize-handle.bottom-right {
+      bottom: -5px;
+      right: -5px;
+      cursor: nwse-resize;
+    }
+    
+    .resize-handle.top {
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: ns-resize;
+    }
+    
+    .resize-handle.right {
+      right: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: ew-resize;
+    }
+    
+    .resize-handle.bottom {
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: ns-resize;
+    }
+    
+    .resize-handle.left {
+      left: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: ew-resize;
+    }
+    
+    .selection-box {
+      position: absolute;
+      border: 1px dashed var(--primary-color);
+      background-color: rgba(0, 116, 228, 0.1);
+      pointer-events: none;
+    }
+    
+    .properties-panel {
+      width: 300px;
+      height: 100%;
+      background-color: #1f1f1f;
+      padding: 1rem;
+      overflow-y: auto;
+      flex-shrink: 0;
+      border-left: 1px solid #3a3a3a;
+      transition: transform 0.3s ease;
+    }
+    
+    .properties-group {
+      margin-bottom: 1rem;
+    }
+    
+    .properties-group-title {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    
+    .properties-group-title::after {
+      content: "▼";
+      font-size: 0.8rem;
+    }
+    
+    .properties-group.collapsed .properties-group-title::after {
+      content: "►";
+    }
+    
+    .properties-group.collapsed .properties-content {
+      display: none;
+    }
+    
+    .property-row {
+      display: flex;
+      margin-bottom: 0.5rem;
+      align-items: center;
+    }
+    
+    .property-label {
+      width: 40%;
+      font-size: 0.9rem;
+    }
+    
+    .property-value {
+      width: 60%;
+    }
+    
+    .property-input {
+      width: 100%;
+      padding: 5px;
+      background-color: #333;
+      border: 1px solid #555;
+      border-radius: 3px;
+      color: white;
+    }
+    
+    .property-select {
+      width: 100%;
+      padding: 5px;
+      background-color: #333;
+      border: 1px solid #555;
+      border-radius: 3px;
+      color: white;
+    }
+    
+    .color-preview {
+      width: 20px;
+      height: 20px;
+      margin-left: 5px;
+      border-radius: 3px;
+      border: 1px solid #555;
+    }
+    
+    .color-container {
+      display: flex;
+      align-items: center;
+    }
+    
+    .code-output {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      flex-direction: column;
+      padding: 2rem;
+      display: none;
+    }
+    
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    
+    .code-title {
+      font-size: 1.5rem;
+      color: white;
+    }
+    
+    .code-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .code-content {
+      flex-grow: 1;
+      background-color: #1a1a1a;
+      border-radius: 5px;
+      padding: 1rem;
+      overflow: auto;
+      font-family: 'Courier New', Courier, monospace;
+      white-space: pre;
+      line-height: 1.5;
+    }
+    
+    .code-actions {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+    }
+    
+    .tooltip {
+      position: absolute;
+      background-color: #333;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      z-index: 1000;
+      pointer-events: none;
+      display: none;
+    }
+    
+    .context-menu {
+      position: absolute;
+      background-color: #282828;
+      border: 1px solid #3a3a3a;
+      border-radius: 4px;
+      padding: 5px 0;
+      min-width: 150px;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .context-menu-item {
+      padding: 8px 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .context-menu-item:hover {
+      background-color: #3a3a3a;
+    }
+    
+    .context-menu-separator {
+      height: 1px;
+      background-color: #3a3a3a;
+      margin: 5px 0;
+    }
+    
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        z-index: 100;
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      
+      .sidebar-mobile-toggle {
+        display: block;
+      }
+      
+      .properties-panel {
+        position: fixed;
+        right: 0;
+        z-index: 100;
+        transform: translateX(100%);
+      }
+      
+      .properties-panel.active {
+        transform: translateX(0);
+      }
+      
+      .properties-toggle {
+        display: block;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+        background: var(--primary-color);
+        border: none;
+        color: white;
+        padding: 8px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    }
+    
+    /* Touch handles for mobile */
+    .touch-handle {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      font-size: 14px;
+      z-index: 10;
+      display: none;
+    }
+    
+    .element-text {
+      pointer-events: none;
+      font-size: 0.9em;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .gradient-preview {
+      width: 100%;
+      height: 20px;
+      margin-top: 5px;
+      border-radius: 3px;
+      border: 1px solid #555;
+      background: linear-gradient(to right, red, blue);
+    }
+    
+    .group-indicator {
+      position: absolute;
+      top: -20px;
+      left: 0;
+      background-color: rgba(0, 162, 255, 0.8);
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      pointer-events: none;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <button class="sidebar-mobile-toggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="sidebar">
+      <div class="logo">
+        <i class="fas fa-cube"></i> Roblox GUI Creator
+      </div>
+      
+      <div class="section-title">Temel Elementler</div>
+      <div class="elements-grid">
+        <button class="element-btn" data-element="ScreenGui">
+          <i class="fas fa-desktop"></i>
+          <span>ScreenGui</span>
+        </button>
+        <button class="element-btn" data-element="Frame">
+          <i class="fas fa-square"></i>
+          <span>Frame</span>
+        </button>
+        <button class="element-btn" data-element="TextLabel">
+          <i class="fas fa-font"></i>
+          <span>TextLabel</span>
+        </button>
+        <button class="element-btn" data-element="TextButton">
+          <i class="fas fa-square-full"></i>
+          <span>TextButton</span>
+        </button>
+        <button class="element-btn" data-element="TextBox">
+          <i class="fas fa-keyboard"></i>
+          <span>TextBox</span>
+        </button>
+        <button class="element-btn" data-element="ImageLabel">
+          <i class="fas fa-image"></i>
+          <span>ImageLabel</span>
+        </button>
+        <button class="element-btn" data-element="ImageButton">
+          <i class="fas fa-image"></i>
+          <span>ImageButton</span>
+        </button>
+        <button class="element-btn" data-element="ScrollingFrame">
+          <i class="fas fa-scroll"></i>
+          <span>ScrollingFrame</span>
+        </button>
+      </div>
+      
+      <div class="section-title">Düzen Elementleri</div>
+      <div class="elements-grid">
+        <button class="element-btn" data-element="UIListLayout">
+          <i class="fas fa-list"></i>
+          <span>UIListLayout</span>
+        </button>
+        <button class="element-btn" data-element="UIGridLayout">
+          <i class="fas fa-th"></i>
+          <span>UIGridLayout</span>
+        </button>
+        <button class="element-btn" data-element="UIPageLayout">
+          <i class="fas fa-file"></i>
+          <span>UIPageLayout</span>
+        </button>
+        <button class="element-btn" data-element="UITableLayout">
+          <i class="fas fa-table"></i>
+          <span>UITableLayout</span>
+        </button>
+      </div>
+      
+      <div class="section-title">Dekorasyon Elementleri</div>
+      <div class="elements-grid">
+        <button class="element-btn" data-element="UICorner">
+          <i class="fas fa-square"></i>
+          <span>UICorner</span>
+        </button>
+        <button class="element-btn" data-element="UIGradient">
+          <i class="fas fa-fill-drip"></i>
+          <span>UIGradient</span>
+        </button>
+        <button class="element-btn" data-element="UIStroke">
+          <i class="fas fa-paint-brush"></i>
+          <span>UIStroke</span>
+        </button>
+        <button class="element-btn" data-element="UIPadding">
+          <i class="fas fa-expand"></i>
+          <span>UIPadding</span>
+        </button>
+        <button class="element-btn" data-element="UIScale">
+          <i class="fas fa-expand-arrows-alt"></i>
+          <span>UIScale</span>
+        </button>
+        <button class="element-btn" data-element="UIAspectRatioConstraint">
+          <i class="fas fa-crop"></i>
+          <span>UIAspectRatio</span>
+        </button>
+        <button class="element-btn" data-element="UISizeConstraint">
+          <i class="fas fa-ruler-combined"></i>
+          <span>UISizeConstraint</span>
+        </button>
+        <button class="element-btn" data-element="UITextSizeConstraint">
+          <i class="fas fa-text-height"></i>
+          <span>UITextSizeConstraint</span>
+        </button>
+      </div>
+      
+      <div class="section-title">Özel Elementler</div>
+      <div class="elements-grid">
+        <button class="element-btn" data-element="ViewportFrame">
+          <i class="fas fa-cube"></i>
+          <span>ViewportFrame</span>
+        </button>
+        <button class="element-btn" data-element="BillboardGui">
+          <i class="fas fa-tag"></i>
+          <span>BillboardGui</span>
+        </button>
+        <button class="element-btn" data-element="SurfaceGui">
+          <i class="fas fa-square"></i>
+          <span>SurfaceGui</span>
+        </button>
+        <button class="element-btn" data-element="VideoFrame">
+          <i class="fas fa-video"></i>
+          <span>VideoFrame</span>
+        </button>
+      </div>
+    </div>
+    
+    <div class="workspace">
+      <div class="toolbar">
+        <button class="toolbar-btn" id="new-project">
+          <i class="fas fa-file"></i> Yeni
+        </button>
+        <button class="toolbar-btn" id="export-code">
+          <i class="fas fa-code"></i> Kodu Dışa Aktar
+        </button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" id="undo">
+          <i class="fas fa-undo"></i> Geri Al
+        </button>
+        <button class="toolbar-btn" id="redo">
+          <i class="fas fa-redo"></i> Yinele
+        </button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" id="group-elements">
+          <i class="fas fa-object-group"></i> Grupla
+        </button>
+        <button class="toolbar-btn" id="ungroup-elements">
+          <i class="fas fa-object-ungroup"></i> Grubu Çöz
+        </button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" id="delete-elements">
+          <i class="fas fa-trash"></i> Sil
+        </button>
+        <div style="flex-grow: 1;"></div>
+        <button class="toolbar-btn" id="toggle-properties">
+          <i class="fas fa-sliders-h"></i>
+        </button>
+      </div>
+      
+      <div class="editor-area">
+        <div class="canvas-container">
+          <div class="canvas" id="gui-canvas">
+            <!-- Canvas elementleri burada oluşturulacak -->
+          </div>
+        </div>
+        
+        <div class="properties-panel">
+          <h2 class="properties-group-title">Özellikler</h2>
+          <div id="properties-container">
+            <div class="properties-empty">
+              Element seçilmedi
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="tooltip" id="tooltip"></div>
+  
+  <div class="code-output" id="code-output">
+    <div class="code-header">
+      <div class="code-title">LocalScript Kodu</div>
+      <button class="code-close">&times;</button>
+    </div>
+    <div class="code-content" id="code-content"></div>
+    <div class="code-actions">
+      <button class="toolbar-btn" id="copy-code">
+        <i class="fas fa-copy"></i> Kopyala
+      </button>
+      <button class="toolbar-btn" id="download-code">
+        <i class="fas fa-download"></i> İndir
+      </button>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Sabitler
+      const CANVAS_DEFAULT_ZOOM = 1;
+      
+      // Durum değişkenleri
+      let canvasZoom = CANVAS_DEFAULT_ZOOM;
+      let elements = [];
+      let selectedElements = [];
+      let activeElement = null;
+      let isDragging = false;
+      let isResizing = false;
+      let isMultiSelecting = false;
+      let resizeHandle = null;
+      let selectedGroup = null;
+      let groups = [];
+      let dragStartX = 0;
+      let dragStartY = 0;
+      let dragOffsetX = 0;
+      let dragOffsetY = 0;
+      let initialWidth = 0;
+      let initialHeight = 0;
+      let selectionBox = null;
+      let selectionStart = { x: 0, y: 0 };
+      let undoStack = [];
+      let redoStack = [];
+      let nextId = 1;
+      
+      // DOM Elemanları
+      const canvas = document.getElementById('gui-canvas');
+      const propertiesPanel = document.querySelector('.properties-panel');
+      const propertiesContainer = document.getElementById('properties-container');
+      const tooltip = document.getElementById('tooltip');
+      const sidebarMobileToggle = document.querySelector('.sidebar-mobile-toggle');
+      const sidebar = document.querySelector('.sidebar');
+      const togglePropertiesBtn = document.getElementById('toggle-properties');
+      const codeOutput = document.getElementById('code-output');
+      const codeContent = document.getElementById('code-content');
+      const codeCloseBtn = document.querySelector('.code-close');
+      
+      // Touch değişkenleri (mobil)
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchElementStartX = 0;
+      let touchElementStartY = 0;
+      
+      // Event listener’ları ayarla
+      setupEventListeners();
+      
+      // UI’yı başlat
+      initializeUI();
+      
+      function setupEventListeners() {
+        // Element butonları
+        document.querySelectorAll('.element-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const elementType = this.dataset.element;
+            addElement(elementType);
+          });
+          
+          btn.addEventListener('mouseenter', function(e) {
+            showTooltip(e, this.querySelector('span').textContent);
+          });
+          
+          btn.addEventListener('mouseleave', function() {
+            hideTooltip();
+          });
+        });
+        
+        // Canvas mouse eventleri
+        canvas.addEventListener('mousedown', handleCanvasMouseDown);
+        document.addEventListener('mousemove', handleDocumentMouseMove);
+        document.addEventListener('mouseup', handleDocumentMouseUp);
+        
+        // Mobil dokunma eventleri
+        canvas.addEventListener('touchstart', handleCanvasTouchStart, { passive: false });
+        document.addEventListener('touchmove', handleDocumentTouchMove, { passive: false });
+        document.addEventListener('touchend', handleDocumentTouchEnd);
+        
+        // Toolbar butonları
+        document.getElementById('new-project').addEventListener('click', newProject);
+        document.getElementById('export-code').addEventListener('click', exportCode);
+        document.getElementById('undo').addEventListener('click', undo);
+        document.getElementById('redo').addEventListener('click', redo);
+        document.getElementById('group-elements').addEventListener('click', groupElements);
+        document.getElementById('ungroup-elements').addEventListener('click', ungroupElements);
+        document.getElementById('delete-elements').addEventListener('click', deleteSelectedElements);
+        
+        // Mobil sidebar toggle
+        sidebarMobileToggle.addEventListener('click', function() {
+          sidebar.classList.toggle('active');
+        });
+        
+        // Properties panel toggle
+        togglePropertiesBtn.addEventListener('click', function() {
+          propertiesPanel.classList.toggle('active');
+        });
+        
+        // Code output kapatma
+        codeCloseBtn.addEventListener('click', function() {
+          codeOutput.style.display = 'none';
+        });
+        
+        document.getElementById('copy-code').addEventListener('click', function() {
+          const code = codeContent.textContent;
+          navigator.clipboard.writeText(code)
+            .then(() => alert('Kod panoya kopyalandı!'))
+            .catch(err => console.error('Kod kopyalanamadı:', err));
+        });
+        
+        document.getElementById('download-code').addEventListener('click', function() {
+          const code = codeContent.textContent;
+          const blob = new Blob([code], { type: 'text/plain' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'RobloxGUI.lua';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
+        
+        // Canvas'a tıklayınca seçimi kaldır
+        canvas.addEventListener('click', function(e) {
+          if (e.target === canvas) {
+            deselectAllElements();
+          }
+        });
+      }
+      
+      function initializeUI() {
+        // Properties grubu çökme özelliği
+        document.addEventListener('click', function(e) {
+          if (e.target.classList.contains('properties-group-title')) {
+            const group = e.target.parentElement;
+            group.classList.toggle('collapsed');
+          }
+        });
+        
+        // Varsayılan ScreenGui ekle
+        addElement('ScreenGui', true);
+      }
+      
+      function showTooltip(e, text) {
+        tooltip.textContent = text;
+        tooltip.style.left = (e.pageX + 10) + 'px';
+        tooltip.style.top = (e.pageY + 10) + 'px';
+        tooltip.style.display = 'block';
+      }
+      
+      function hideTooltip() {
+        tooltip.style.display = 'none';
+      }
+      
+      function addElement(type, isRoot = false) {
+        // Undo için state kaydet
+        saveState();
+        
+        const id = 'element_' + nextId++;
+        let element = {
+          id: id,
+          type: type,
+          name: type + nextId,
+          x: isRoot ? 0 : 50,
+          y: isRoot ? 0 : 50,
+          width: isRoot ? canvas.clientWidth : 100,
+          height: isRoot ? canvas.clientHeight : 100,
+          properties: getDefaultProperties(type),
+          children: [],
+          parent: isRoot ? null : (selectedElements.length === 1 ? selectedElements[0].id : null)
+        };
+        
+        // UI dekoratörleri için özel durum
+        if (isUIDecorator(type)) {
+          if (!selectedElements.length || !canAddDecoratorTo(selectedElements[0].type, type)) {
+            alert(`${type} sadece uygun bir ebeveyn elemente eklenebilir!`);
+            return;
+          }
+          element.parent = selectedElements[0].id;
+          element.x = 0;
+          element.y = 0;
+          element.width = selectedElements[0].width;
+          element.height = selectedElements[0].height;
+        }
+        
+        elements.push(element);
+        
+        if (element.parent) {
+          const parent = getElementById(element.parent);
+          if (parent) {
+            parent.children.push(element.id);
+          }
+        }
+        
+        // DOM element oluştur
+        const domElement = document.createElement('div');
+        domElement.id = id;
+        domElement.className = 'canvas-element';
+        domElement.setAttribute('data-type', type);
+        domElement.setAttribute('data-name', element.name);
+        
+        domElement.style.left = element.x + 'px';
+        domElement.style.top = element.y + 'px';
+        domElement.style.width = element.width + 'px';
+        domElement.style.height = element.height + 'px';
+        
+        const elementText = document.createElement('div');
+        elementText.className = 'element-text';
+        elementText.textContent = element.name;
+        domElement.appendChild(elementText);
+        
+        applyElementStyles(domElement, element);
+        
+        if (element.parent) {
+          const parentDom = document.getElementById(element.parent);
+          if (parentDom) {
+            parentDom.appendChild(domElement);
+          } else {
+            canvas.appendChild(domElement);
+          }
+        } else {
+          canvas.appendChild(domElement);
+        }
+        
+        if (!isUIDecorator(type)) {
+          addResizeHandles(domElement);
+        }
+        
+        deselectAllElements();
+        selectElement(element.id);
+        updatePropertiesPanel();
+        
+        return element;
+      }
+      
+      function canAddDecoratorTo(parentType, decoratorType) {
+        const validParents = ['Frame', 'TextLabel', 'TextButton', 'TextBox', 'ImageLabel', 'ImageButton', 'ScrollingFrame', 'ViewportFrame'];
+        return validParents.includes(parentType);
+      }
+      
+      function isUIDecorator(type) {
+        const decorators = ['UICorner', 'UIGradient', 'UIStroke', 'UIPadding', 'UIScale', 'UIAspectRatioConstraint', 'UISizeConstraint', 'UITextSizeConstraint'];
+        return decorators.includes(type);
+      }
+      
+      function getElementById(id) {
+        return elements.find(el => el.id === id);
+      }
+      
+      function getDefaultProperties(type) {
+        const common = {
+          Name: type + nextId,
+          Visible: true
+        };
+        
+        switch (type) {
+          case 'ScreenGui':
+            return {
+              ...common,
+              ResetOnSpawn: true,
+              IgnoreGuiInset: false,
+              DisplayOrder: 0,
+              Enabled: true
+            };
+          case 'Frame':
+            return {
+              ...common,
+              BackgroundColor3: [0.137, 0.137, 0.137],
+              BackgroundTransparency: 0,
+              BorderColor3: [0, 0, 0],
+              BorderSizePixel: 1,
+              ClipsDescendants: false,
+              Active: false,
+              Selectable: false,
+              Draggable: false
+            };
+          case 'TextLabel':
+            return {
+              ...common,
+              BackgroundColor3: [0.137, 0.137, 0.137],
+              BackgroundTransparency: 0,
+              BorderColor3: [0, 0, 0],
+              BorderSizePixel: 1,
+              Text: "Metin Etiketi",
+              TextColor3: [1, 1, 1],
+              TextSize: 14,
+              Font: "Arial",
+              TextScaled: false,
+              TextWrapped: false,
+              TextXAlignment: "Center",
+              TextYAlignment: "Center",
+              ClipsDescendants: false
+            };
+          case 'TextButton':
+            return {
+              ...common,
+              BackgroundColor3: [0.235, 0.235, 0.235],
+              BackgroundTransparency: 0,
+              BorderColor3: [0, 0, 0],
+              BorderSizePixel: 1,
+              Text: "Buton",
+              TextColor3: [1, 1, 1],
+              TextSize: 14,
+              Font: "Arial",
+              TextScaled: false,
+              TextWrapped: false,
+              TextXAlignment: "Center",
+              TextYAlignment: "Center",
+              AutoButtonColor: true,
+              ClipsDescendants: false,
+              Selectable: true,
+              Active: true,
+              Draggable: false
+            };
+          case 'TextBox':
+            return {
+              ...common,
+              BackgroundColor3: [0.196, 0.196, 0.196],
+              BackgroundTransparency: 0,
+              BorderColor3: [0, 0, 0],
+              BorderSizePixel: 1,
+              Text: "",
+              PlaceholderText: "Yazın...",
+              TextColor3: [1, 1, 1],
+              PlaceholderColor3: [0.7, 0.7, 0.7],
+              TextSize: 14,
+              Font: "Arial",
+              TextScaled: false,
+              TextWrapped: false,
+              TextXAlignment: "Center",
+              TextYAlignment: "Center",
+              ClearTextOnFocus: true,
+              ClipsDescendants: false,
+              Selectable: true,
+              Active: true,
+              Draggable: false
+            };
+          case 'ImageLabel':
+            return {
+              ...common,
+              BackgroundColor3: [0.137, 0.137, 0.137],
+              BackgroundTransparency: 0,
+              BorderColor3: [0, 0, 0],
+              BorderSizePixel: 1,
+              Image: "",
+              ImageColor3: [1, 1, 1],
+              ImageTransparency: 0,
+              ScaleType: "Stretch",
+              SliceCenter: [0, 0, 0, 0],
+              SliceScale: 1,
+              TileSize: [1, 1],
+              ClipsDescendants: false
+            };
+          case 'ImageButton':
+            return {
+              ...common,
+              BackgroundColor3: [0.137, 0.137, 0.137],
+              BackgroundTransparency: 0,
+              BorderColor3: [0, 0, 0],
+              BorderSizePixel: 1,
+              Image: "",
+              ImageColor3: [1, 1, 1],
+              ImageTransparency: 0,
+              ScaleType: "Stretch",
+              SliceCenter: [0, 0, 0, 0],
+              SliceScale: 1,
+              TileSize: [1, 1],
+              AutoButtonColor: true,
+              ClipsDescendants: false,
+              Selectable: true,
+              Active: true,
+              Draggable: false
+            };
+          case 'ScrollingFrame':
+            return {
+              ...common,
+              BackgroundColor3: [0.137, 0.137, 0.137],
+              BackgroundTransparency: 0,
+              BorderColor3: [0, 0, 0],
+              BorderSizePixel: 1,
+              CanvasSize: [0, 0, 0, 0],
+              ScrollBarImageColor3: [0.8, 0.8, 0.8],
+              ScrollBarImageTransparency: 0,
+              ScrollBarThickness: 12,
+              ScrollingEnabled: true,
+              TopImage: "rbxasset://textures/ui/Scroll/scroll-middle.png",
+              BottomImage: "rbxasset://textures/ui/Scroll/scroll-middle.png",
+              MidImage: "rbxasset://textures/ui/Scroll/scroll-middle.png",
+              ClipsDescendants: true,
+              Selectable: true,
+              Active: true,
+              Draggable: false
+            };
+          case 'UICorner':
+            return {
+              ...common,
+              CornerRadius: new UDim2(0, 8)
+            };
+          case 'UIGradient':
+            return {
+              ...common,
+              Color: [
+                [0, 1, 1, 1],
+                [1, 0, 0, 1]
+              ],
+              Transparency: [
+                [0, 0],
+                [1, 0]
+              ],
+              Rotation: 0,
+              Offset: [0, 0]
+            };
+          case 'UIStroke':
+            return {
+              ...common,
+              Color: [0, 0, 0],
+              Thickness: 1,
+              Transparency: 0,
+              LineJoinMode: "Round",
+              ApplyStrokeMode: "Border"
+            };
+          case 'UIPadding':
+            return {
+              ...common,
+              PaddingTop: new UDim(0, 5),
+              PaddingBottom: new UDim(0, 5),
+              PaddingLeft: new UDim(0, 5),
+              PaddingRight: new UDim(0, 5)
+            };
+          case 'UIListLayout':
+            return {
+              ...common,
+              Padding: new UDim(0, 5),
+              FillDirection: "Vertical",
+              HorizontalAlignment: "Left",
+              VerticalAlignment: "Top",
+              SortOrder: "LayoutOrder"
+            };
+          case 'UIGridLayout':
+            return {
+              ...common,
+              CellSize: new UDim2(0, 100, 0, 100),
+              CellPadding: new UDim2(0, 5, 0, 5),
+              FillDirection: "Horizontal",
+              StartCorner: "TopLeft",
+              FillDirectionMaxCells: 0,
+              HorizontalAlignment: "Left",
+              VerticalAlignment: "Top",
+              SortOrder: "LayoutOrder"
+            };
+          default:
+            return common;
+        }
+      }
+      
+      // Roblox benzeri UDim ve UDim2 yardımcı sınıfları
+      function UDim(scale, offset) {
+        return { Scale: scale, Offset: offset };
+      }
+      
+      function UDim2(scaleX, offsetX, scaleY, offsetY) {
+        return {
+          X: { Scale: scaleX, Offset: offsetX },
+          Y: { Scale: scaleY, Offset: offsetY }
+        };
+      }
+      
+      function applyElementStyles(domElement, element) {
+        switch(element.type) {
+          case 'ScreenGui':
+            domElement.style.backgroundColor = 'rgba(30, 30, 30, 0.3)';
+            domElement.style.border = '1px dashed #666';
+            break;
+          case 'Frame':
+            const bgColor = element.properties.BackgroundColor3;
+            const bgTransparency = element.properties.BackgroundTransparency;
+            domElement.style.backgroundColor = `rgba(${bgColor[0]*255}, ${bgColor[1]*255}, ${bgColor[2]*255}, ${1 - bgTransparency})`;
+            if (element.properties.BorderSizePixel > 0) {
+              const borderColor = element.properties.BorderColor3;
+              domElement.style.border = `${element.properties.BorderSizePixel}px solid rgb(${borderColor[0]*255}, ${borderColor[1]*255}, ${borderColor[2]*255})`;
+            } else {
+              domElement.style.border = 'none';
+            }
+            if (element.properties.ClipsDescendants) {
+              domElement.style.overflow = 'hidden';
+            }
+            if (element.properties.Draggable) {
+              domElement.setAttribute('data-draggable', 'true');
+            }
+            break;
+          case 'TextLabel':
+          case 'TextButton':
+          case 'TextBox':
+            const textBgColor = element.properties.BackgroundColor3;
+            const textBgTransparency = element.properties.BackgroundTransparency;
+            domElement.style.backgroundColor = `rgba(${textBgColor[0]*255}, ${textBgColor[1]*255}, ${textBgColor[2]*255}, ${1 - textBgTransparency})`;
+            if (element.properties.BorderSizePixel > 0) {
+              const textBorderColor = element.properties.BorderColor3;
+              domElement.style.border = `${element.properties.BorderSizePixel}px solid rgb(${textBorderColor[0]*255}, ${textBorderColor[1]*255}, ${textBorderColor[2]*255})`;
+            } else {
+              domElement.style.border = 'none';
+            }
+            const textColor = element.properties.TextColor3;
+            let elementText = domElement.querySelector('.element-text');
+            if (elementText) {
+              elementText.textContent = element.properties.Text || element.name;
+              elementText.style.color = `rgb(${textColor[0]*255}, ${textColor[1]*255}, ${textColor[2]*255})`;
+              elementText.style.fontSize = `${element.properties.TextSize}px`;
+              elementText.style.fontFamily = element.properties.Font;
+              switch(element.properties.TextXAlignment) {
+                case 'Left':
+                  domElement.style.justifyContent = 'flex-start';
+                  break;
+                case 'Right':
+                  domElement.style.justifyContent = 'flex-end';
+                  break;
+                case 'Center':
+                default:
+                  domElement.style.justifyContent = 'center';
+                  break;
+              }
+              switch(element.properties.TextYAlignment) {
+                case 'Top':
+                  domElement.style.alignItems = 'flex-start';
+                  break;
+                case 'Bottom':
+                  domElement.style.alignItems = 'flex-end';
+                  break;
+                case 'Center':
+                default:
+                  domElement.style.alignItems = 'center';
+                  break;
+              }
+              if (element.properties.TextScaled) {
+                elementText.style.fontSize = 'min(100%, 14px)';
+              }
+              if (element.properties.TextWrapped) {
+                elementText.style.whiteSpace = 'normal';
+                elementText.style.wordBreak = 'break-word';
+              } else {
+                elementText.style.whiteSpace = 'nowrap';
+                elementText.style.overflow = 'hidden';
+                elementText.style.textOverflow = 'ellipsis';
+              }
+            }
+            if (element.properties.ClipsDescendants) {
+              domElement.style.overflow = 'hidden';
+            }
+            if (element.type === 'TextButton' && element.properties.AutoButtonColor) {
+              domElement.style.cursor = 'pointer';
+            }
+            if (element.properties.Draggable) {
+              domElement.setAttribute('data-draggable', 'true');
+            }
+            break;
+          case 'ImageLabel':
+          case 'ImageButton':
+            const imgBgColor = element.properties.BackgroundColor3;
+            const imgBgTransparency = element.properties.BackgroundTransparency;
+            domElement.style.backgroundColor = `rgba(${imgBgColor[0]*255}, ${imgBgColor[1]*255}, ${imgBgColor[2]*255}, ${1 - imgBgTransparency})`;
+            if (element.properties.BorderSizePixel > 0) {
+              const imgBorderColor = element.properties.BorderColor3;
+              domElement.style.border = `${element.properties.BorderSizePixel}px solid rgb(${imgBorderColor[0]*255}, ${imgBorderColor[1]*255}, ${imgBorderColor[2]*255})`;
+            } else {
+              domElement.style.border = 'none';
+            }
+            if (element.properties.Image && element.properties.Image !== "") {
+              const img = document.createElement('img');
+              img.style.width = '100%';
+              img.style.height = '100%';
+              img.style.objectFit = getScaleTypeCSS(element.properties.ScaleType);
+              img.src = element.properties.Image;
+              domElement.appendChild(img);
+            }
+            if (element.properties.ClipsDescendants) {
+              domElement.style.overflow = 'hidden';
+            }
+            if (element.type === 'ImageButton' && element.properties.AutoButtonColor) {
+              domElement.style.cursor = 'pointer';
+            }
+            if (element.properties.Draggable) {
+              domElement.setAttribute('data-draggable', 'true');
+            }
+            break;
+          case 'ScrollingFrame':
+            const scrollBgColor = element.properties.BackgroundColor3;
+            const scrollBgTransparency = element.properties.BackgroundTransparency;
+            domElement.style.backgroundColor = `rgba(${scrollBgColor[0]*255}, ${scrollBgColor[1]*255}, ${scrollBgColor[2]*255}, ${1 - scrollBgTransparency})`;
+            if (element.properties.BorderSizePixel > 0) {
+              const scrollBorderColor = element.properties.BorderColor3;
+              domElement.style.border = `${element.properties.BorderSizePixel}px solid rgb(${scrollBorderColor[0]*255}, ${scrollBorderColor[1]*255}, ${scrollBorderColor[2]*255})`;
+            } else {
+              domElement.style.border = 'none';
+            }
+            domElement.style.overflow = element.properties.ScrollingEnabled === false ? 'hidden' : 'auto';
+            if (element.properties.Draggable) {
+              domElement.setAttribute('data-draggable', 'true');
+            }
+            break;
+          case 'UICorner':
+            domElement.style.borderRadius = '8px';
+            domElement.style.pointerEvents = 'none';
+            domElement.style.position = 'absolute';
+            domElement.style.top = '0';
+            domElement.style.left = '0';
+            domElement.style.right = '0';
+            domElement.style.bottom = '0';
+            domElement.style.border = '1px dashed #66aaff';
+            domElement.style.backgroundColor = 'transparent';
+            if (element.parent) {
+              const parentDom = document.getElementById(element.parent);
+              if (parentDom) {
+                const radius = element.properties.CornerRadius;
+                const radiusValue = `${radius.Offset}px`;
+                parentDom.style.borderRadius = radiusValue;
+              }
+            }
+            break;
+          case 'UIGradient':
+            domElement.style.pointerEvents = 'none';
+            domElement.style.position = 'absolute';
+            domElement.style.top = '0';
+            domElement.style.left = '0';
+            domElement.style.right = '0';
+            domElement.style.bottom = '0';
+            domElement.style.border = '1px dashed #ff66aa';
+            const gradientPreview = document.createElement('div');
+            gradientPreview.className = 'gradient-preview';
+            domElement.appendChild(gradientPreview);
+            if (element.parent) {
+              const parentDom = document.getElementById(element.parent);
+              if (parentDom) {
+                const gradient = createGradientFromProperties(element.properties);
+                parentDom.style.background = gradient;
+              }
+            }
+            break;
+          case 'UIPadding':
+            domElement.style.pointerEvents = 'none';
+            domElement.style.position = 'absolute';
+            domElement.style.top = '0';
+            domElement.style.left = '0';
+            domElement.style.right = '0';
+            domElement.style.bottom = '0';
+            domElement.style.border = '1px dashed #aaff66';
+            if (element.parent) {
+              const parentDom = document.getElementById(element.parent);
+              if (parentDom) {
+                const padding = element.properties;
+                parentDom.style.paddingTop = `${padding.PaddingTop.Offset}px`;
+                parentDom.style.paddingRight = `${padding.PaddingRight.Offset}px`;
+                parentDom.style.paddingBottom = `${padding.PaddingBottom.Offset}px`;
+                parentDom.style.paddingLeft = `${padding.PaddingLeft.Offset}px`;
+              }
+            }
+            break;
+        }
+      }
+      
+      function getScaleTypeCSS(scaleType) {
+        switch(scaleType) {
+          case 'Stretch':
+            return 'fill';
+          case 'Crop':
+            return 'cover';
+          case 'Fit':
+            return 'contain';
+          default:
+            return 'fill';
+        }
+      }
+      
+      function createGradientFromProperties(properties) {
+        return 'linear-gradient(90deg, #ff6b6b, #4ecdc4)';
+      }
+      
+      function addResizeHandles(element) {
+        const handles = [
+          { class: 'top-left', cursor: 'nwse-resize' },
+          { class: 'top-right', cursor: 'nesw-resize' },
+          { class: 'bottom-left', cursor: 'nesw-resize' },
+          { class: 'bottom-right', cursor: 'nwse-resize' },
+          { class: 'top', cursor: 'ns-resize' },
+          { class: 'right', cursor: 'ew-resize' },
+          { class: 'bottom', cursor: 'ns-resize' },
+          { class: 'left', cursor: 'ew-resize' }
+        ];
+        
+        handles.forEach(handle => {
+          const handleElement = document.createElement('div');
+          handleElement.className = `resize-handle ${handle.class}`;
+          handleElement.style.cursor = handle.cursor;
+          handleElement.addEventListener('mousedown', function(e) {
+            e.stopPropagation();
+            isResizing = true;
+            resizeHandle = handle.class;
+            activeElement = getElementById(element.id);
+            initialWidth = element.clientWidth;
+            initialHeight = element.clientHeight;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+          });
+          handleElement.addEventListener('touchstart', function(e) {
+            e.stopPropagation();
+            isResizing = true;
+            resizeHandle = handle.class;
+            activeElement = getElementById(element.id);
+            initialWidth = element.clientWidth;
+            initialHeight = element.clientHeight;
+            dragStartX = e.touches[0].clientX;
+            dragStartY = e.touches[0].clientY;
+          }, { passive: false });
+          element.appendChild(handleElement);
+        });
+        
+        const touchHandle = document.createElement('div');
+        touchHandle.className = 'touch-handle';
+        touchHandle.innerHTML = '<i class="fas fa-arrows-alt"></i>';
+        element.appendChild(touchHandle);
+      }
+      
+      function selectElement(id) {
+        const element = getElementById(id);
+        if (!element) return;
+        if (!selectedElements.includes(element)) {
+          selectedElements.push(element);
+        }
+        const domElement = document.getElementById(id);
+        if (domElement) {
+          domElement.classList.add('selected');
+          if (selectedElements.length === 1) {
+            const touchHandle = domElement.querySelector('.touch-handle');
+            if (touchHandle) {
+              touchHandle.style.display = 'flex';
+              touchHandle.style.left = '50%';
+              touchHandle.style.top = '50%';
+              touchHandle.style.transform = 'translate(-50%, -50%)';
+            }
+          }
+        }
+        updatePropertiesPanel();
+      }
+      
+      function deselectElement(id) {
+        const index = selectedElements.findIndex(el => el.id === id);
+        if (index !== -1) {
+          selectedElements.splice(index, 1);
+        }
+        const domElement = document.getElementById(id);
+        if (domElement) {
+          domElement.classList.remove('selected');
+          const touchHandle = domElement.querySelector('.touch-handle');
+          if (touchHandle) {
+            touchHandle.style.display = 'none';
+          }
+        }
+        updatePropertiesPanel();
+      }
+      
+      function deselectAllElements() {
+        selectedElements.forEach(element => {
+          const domElement = document.getElementById(element.id);
+          if (domElement) {
+            domElement.classList.remove('selected');
+            const touchHandle = domElement.querySelector('.touch-handle');
+            if (touchHandle) {
+              touchHandle.style.display = 'none';
+            }
+          }
+        });
+        selectedElements = [];
+        updatePropertiesPanel();
+      }
+      
+      function updatePropertiesPanel() {
+        propertiesContainer.innerHTML = '';
+        if (selectedElements.length === 0) {
+          propertiesContainer.innerHTML = '<div class="properties-empty">Element seçilmedi</div>';
+          return;
+        }
+        if (selectedElements.length > 1) {
+          propertiesContainer.innerHTML = '<div class="properties-empty">Çoklu seçim - ' + selectedElements.length + ' element</div>';
+          // Çoklu seçim için ortak özellikler eklenebilir
+          return;
+        }
+        const element = selectedElements[0];
+        
+        // Genel Özellikler Grubu
+        const nameGroup = document.createElement('div');
+        nameGroup.className = 'properties-group';
+        
+        const nameTitle = document.createElement('div');
+        nameTitle.className = 'properties-group-title';
+        nameTitle.textContent = 'Genel';
+        nameGroup.appendChild(nameTitle);
+        
+        const nameContent = document.createElement('div');
+        nameContent.className = 'properties-content';
+        
+        // Name Özelliği
+        const nameRow = document.createElement('div');
+        nameRow.className = 'property-row';
+        const nameLabel = document.createElement('div');
+        nameLabel.className = 'property-label';
+        nameLabel.textContent = 'Name';
+        nameRow.appendChild(nameLabel);
+        const nameValue = document.createElement('div');
+        nameValue.className = 'property-value';
+        const nameInput = document.createElement('input');
+        nameInput.className = 'property-input';
+        nameInput.type = 'text';
+        nameInput.value = element.name;
+        nameInput.addEventListener('change', function() {
+          element.name = this.value;
+          element.properties.Name = this.value;
+          const domElement = document.getElementById(element.id);
+          if (domElement) {
+            domElement.setAttribute('data-name', element.name);
+            const elementText = domElement.querySelector('.element-text');
+            if (elementText && !element.properties.Text) {
+              elementText.textContent = element.name;
+            }
+          }
+        });
+        nameValue.appendChild(nameInput);
+        nameRow.appendChild(nameValue);
+        nameContent.appendChild(nameRow);
+        
+        // Type Özelliği (salt okunur)
+        const typeRow = document.createElement('div');
+        typeRow.className = 'property-row';
+        const typeLabel = document.createElement('div');
+        typeLabel.className = 'property-label';
+        typeLabel.textContent = 'Type';
+        typeRow.appendChild(typeLabel);
+        const typeValue = document.createElement('div');
+        typeValue.className = 'property-value';
+        const typeInput = document.createElement('input');
+        typeInput.className = 'property-input';
+        typeInput.type = 'text';
+        typeInput.value = element.type;
+        typeInput.readOnly = true;
+        typeValue.appendChild(typeInput);
+        typeRow.appendChild(typeValue);
+        nameContent.appendChild(typeRow);
+        
+        nameGroup.appendChild(nameContent);
+        propertiesContainer.appendChild(nameGroup);
+        
+        // Diğer özellikler grubu örneği (Konum & Boyut)
+        const posSizeGroup = document.createElement('div');
+        posSizeGroup.className = 'properties-group';
+        const posSizeTitle = document.createElement('div');
+        posSizeTitle.className = 'properties-group-title';
+        posSizeTitle.textContent = 'Konum & Boyut';
+        posSizeGroup.appendChild(posSizeTitle);
+        const posSizeContent = document.createElement('div');
+        posSizeContent.className = 'properties-content';
+        
+        // X pozisyonu
+        const posXRow = document.createElement('div');
+        posXRow.className = 'property-row';
+        const posXLabel = document.createElement('div');
+        posXLabel.className = 'property-label';
+        posXLabel.textContent = 'X';
+        posXRow.appendChild(posXLabel);
+        const posXValue = document.createElement('div');
+        posXValue.className = 'property-value';
+        const posXInput = document.createElement('input');
+        posXInput.className = 'property-input';
+        posXInput.type = 'number';
+        posXInput.value = element.x;
+        posXInput.addEventListener('change', function() {
+          element.x = parseInt(this.value);
+          document.getElementById(element.id).style.left = element.x + 'px';
+        });
+        posXValue.appendChild(posXInput);
+        posXRow.appendChild(posXValue);
+        posSizeContent.appendChild(posXRow);
+        
+        // Y pozisyonu
+        const posYRow = document.createElement('div');
+        posYRow.className = 'property-row';
+        const posYLabel = document.createElement('div');
+        posYLabel.className = 'property-label';
+        posYLabel.textContent = 'Y';
+        posYRow.appendChild(posYLabel);
+        const posYValue = document.createElement('div');
+        posYValue.className = 'property-value';
+        const posYInput = document.createElement('input');
+        posYInput.className = 'property-input';
+        posYInput.type = 'number';
+        posYInput.value = element.y;
+        posYInput.addEventListener('change', function() {
+          element.y = parseInt(this.value);
+          document.getElementById(element.id).style.top = element.y + 'px';
+        });
+        posYValue.appendChild(posYInput);
+        posYRow.appendChild(posYValue);
+        posSizeContent.appendChild(posYRow);
+        
+        // Genişlik
+        const widthRow = document.createElement('div');
+        widthRow.className = 'property-row';
+        const widthLabel = document.createElement('div');
+        widthLabel.className = 'property-label';
+        widthLabel.textContent = 'Width';
+        widthRow.appendChild(widthLabel);
+        const widthValue = document.createElement('div');
+        widthValue.className = 'property-value';
+        const widthInput = document.createElement('input');
+        widthInput.className = 'property-input';
+        widthInput.type = 'number';
+        widthInput.value = element.width;
+        widthInput.addEventListener('change', function() {
+          element.width = parseInt(this.value);
+          document.getElementById(element.id).style.width = element.width + 'px';
+        });
+        widthValue.appendChild(widthInput);
+        widthRow.appendChild(widthValue);
+        posSizeContent.appendChild(widthRow);
+        
+        // Yükseklik
+        const heightRow = document.createElement('div');
+        heightRow.className = 'property-row';
+        const heightLabel = document.createElement('div');
+        heightLabel.className = 'property-label';
+        heightLabel.textContent = 'Height';
+        heightRow.appendChild(heightLabel);
+        const heightValue = document.createElement('div');
+        heightValue.className = 'property-value';
+        const heightInput = document.createElement('input');
+        heightInput.className = 'property-input';
+        heightInput.type = 'number';
+        heightInput.value = element.height;
+        heightInput.addEventListener('change', function() {
+          element.height = parseInt(this.value);
+          document.getElementById(element.id).style.height = element.height + 'px';
+        });
+        heightValue.appendChild(heightInput);
+        heightRow.appendChild(heightValue);
+        posSizeContent.appendChild(heightRow);
+        
+        posSizeGroup.appendChild(posSizeContent);
+        propertiesContainer.appendChild(posSizeGroup);
+      }
+      
+      // Basit event handler'lar
+      function handleCanvasMouseDown(e) {
+        if (e.target.classList.contains('canvas-element')) {
+          const id = e.target.id;
+          selectElement(id);
+          isDragging = true;
+          activeElement = getElementById(id);
+          dragStartX = e.clientX;
+          dragStartY = e.clientY;
+          const rect = e.target.getBoundingClientRect();
+          dragOffsetX = e.clientX - rect.left;
+          dragOffsetY = e.clientY - rect.top;
+        } else {
+          isMultiSelecting = true;
+          selectionStart = { x: e.clientX, y: e.clientY };
+          selectionBox = document.createElement('div');
+          selectionBox.className = 'selection-box';
+          selectionBox.style.left = e.clientX + 'px';
+          selectionBox.style.top = e.clientY + 'px';
+          document.body.appendChild(selectionBox);
+        }
+      }
+      
+      function handleDocumentMouseMove(e) {
+        if (isResizing && activeElement) {
+          const deltaX = e.clientX - dragStartX;
+          const deltaY = e.clientY - dragStartY;
+          const domElement = document.getElementById(activeElement.id);
+          if (!domElement) return;
+          // Basit bir örnek: sağ alt köşe için
+          if (resizeHandle === 'bottom-right') {
+            let newWidth = initialWidth + deltaX;
+            let newHeight = initialHeight + deltaY;
+            activeElement.width = newWidth;
+            activeElement.height = newHeight;
+            domElement.style.width = newWidth + 'px';
+            domElement.style.height = newHeight + 'px';
+          }
+        } else if (isDragging && activeElement) {
+          const deltaX = e.clientX - dragStartX;
+          const deltaY = e.clientY - dragStartY;
+          activeElement.x += deltaX;
+          activeElement.y += deltaY;
+          const domElement = document.getElementById(activeElement.id);
+          if (domElement) {
+            domElement.style.left = activeElement.x + 'px';
+            domElement.style.top = activeElement.y + 'px';
+          }
+          dragStartX = e.clientX;
+          dragStartY = e.clientY;
+        } else if (isMultiSelecting && selectionBox) {
+          const currentX = e.clientX;
+          const currentY = e.clientY;
+          selectionBox.style.width = Math.abs(currentX - selectionStart.x) + 'px';
+          selectionBox.style.height = Math.abs(currentY - selectionStart.y) + 'px';
+          selectionBox.style.left = Math.min(currentX, selectionStart.x) + 'px';
+          selectionBox.style.top = Math.min(currentY, selectionStart.y) + 'px';
+        }
+      }
+      
+      function handleDocumentMouseUp(e) {
+        isDragging = false;
+        isResizing = false;
+        if (isMultiSelecting && selectionBox) {
+          document.body.removeChild(selectionBox);
+          selectionBox = null;
+          isMultiSelecting = false;
+        }
+      }
+      
+      function handleCanvasTouchStart(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        handleCanvasMouseDown({ clientX: touch.clientX, clientY: touch.clientY, target: e.target });
+      }
+      
+      function handleDocumentTouchMove(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        handleDocumentMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
+      }
+      
+      function handleDocumentTouchEnd(e) {
+        handleDocumentMouseUp(e);
+      }
+      
+      // Toolbar fonksiyonları
+      function newProject() {
+        if (confirm("Yeni proje oluşturulacak, mevcut çalışma kaybolacak. Devam etmek istiyor musunuz?")) {
+          elements = [];
+          selectedElements = [];
+          canvas.innerHTML = "";
+          addElement('ScreenGui', true);
+          undoStack = [];
+          redoStack = [];
+        }
+      }
+      
+      function exportCode() {
+        // Basit bir örnek: Lua tabanlı kod çıktısı oluştur
+        let luaCode = "-- Roblox GUI Kod Çıktısı\n";
+        elements.forEach(el => {
+          luaCode += `-- ${el.type} (${el.id})\n`;
+        });
+        codeContent.textContent = luaCode;
+        codeOutput.style.display = 'flex';
+      }
+      
+      function undo() {
+        if (undoStack.length > 0) {
+          redoStack.push(JSON.stringify(elements));
+          elements = JSON.parse(undoStack.pop());
+          refreshCanvas();
+        }
+      }
+      
+      function redo() {
+        if (redoStack.length > 0) {
+          undoStack.push(JSON.stringify(elements));
+          elements = JSON.parse(redoStack.pop());
+          refreshCanvas();
+        }
+      }
+      
+      function groupElements() {
+        if (selectedElements.length < 2) {
+          alert("Gruplamak için en az 2 element seçmelisiniz.");
+          return;
+        }
+        const groupId = 'group_' + Date.now();
+        groups.push({ id: groupId, members: selectedElements.map(el => el.id) });
+        selectedElements.forEach(el => {
+          const domElement = document.getElementById(el.id);
+          if (domElement) {
+            domElement.classList.add('in-group');
+          }
+        });
+        alert("Elementler gruplandı!");
+      }
+      
+      function ungroupElements() {
+        if (!selectedElements.length) return;
+        groups = groups.filter(group => {
+          group.members.forEach(memberId => {
+            const domElement = document.getElementById(memberId);
+            if (domElement) {
+              domElement.classList.remove('in-group');
+            }
+          });
+          return false;
+        });
+        alert("Gruplandırma kaldırıldı!");
+      }
+      
+      function deleteSelectedElements() {
+        selectedElements.forEach(el => {
+          const domElement = document.getElementById(el.id);
+          if (domElement && domElement.parentElement) {
+            domElement.parentElement.removeChild(domElement);
+          }
+          elements = elements.filter(e => e.id !== el.id);
+        });
+        selectedElements = [];
+        updatePropertiesPanel();
+      }
+      
+      function saveState() {
+        undoStack.push(JSON.stringify(elements));
+        redoStack = [];
+      }
+      
+      function refreshCanvas() {
+        canvas.innerHTML = "";
+        elements.forEach(el => {
+          // Yeniden oluşturma işlemi
+          addElement(el.type, el.parent === null);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
