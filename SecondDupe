@@ -25,6 +25,7 @@ local CrabGameGameId = 124116468050395
 local SquidGameSeason2GameId = 94663523641506 -- in round not lobby!
 local makevideostobecomerichandfamousGameId = 120444489340872
 local LastToGetSickWinsGameId = 104368835975147
+local GrowAGardenGameID = 126884695634066
 
 -- dead rails lobby and game
 local deadrailslobbyGameId = 116495829188952
@@ -113,6 +114,8 @@ elseif gameId == deadrailsGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Dead%20rails"))()
 elseif gameId == LastToGetSickWinsGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/LastTogetSickwins"))()
+elseif gameId == GrowAGardenGameID then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/GrowAGarden"))()
 
 
 else
