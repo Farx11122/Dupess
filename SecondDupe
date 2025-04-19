@@ -115,7 +115,7 @@ elseif gameId == deadrailsGameId then
 elseif gameId == LastToGetSickWinsGameId then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/LastTogetSickwins"))()
 elseif gameId == GrowAGardenGameID then
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/GrowAGarden"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/Dupess/refs/heads/main/Growagarden%20im%20lazy%20ashell"))()
 
 
 else
