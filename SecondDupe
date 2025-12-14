@@ -23,7 +23,7 @@ local function m()
     t.Position = UDim2.new(0, 0, 0, 0)
     t.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
     t.TextColor3 = Color3.new(1, 1, 1)
-    t.Text = "GGHUB Loader"
+    t.Text = "GGHUB New Loadstring"
     t.Font = Enum.Font.Gotham
     t.Parent = f
 
