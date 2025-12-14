@@ -1,0 +1,74 @@
+
+local S = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+local function m()
+    local g = Instance.new("ScreenGui")
+    g.Name = "GGHUBGUI"
+    g.ResetOnSpawn = false
+    g.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    g.Parent = S
+
+    local f = Instance.new("Frame")
+    f.Size = UDim2.new(0, 250, 0, 120)
+    f.Position = UDim2.new(0.5, -125, 0.5, -60)
+    f.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    f.BorderSizePixel = 0
+    f.Parent = g
+
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0, 8)
+    c.Parent = f
+
+    local t = Instance.new("TextLabel")
+    t.Size = UDim2.new(1, 0, 0, 30)
+    t.Position = UDim2.new(0, 0, 0, 0)
+    t.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    t.TextColor3 = Color3.new(1, 1, 1)
+    t.Text = "GGHUB Loader"
+    t.Font = Enum.Font.Gotham
+    t.Parent = f
+
+    local b = Instance.new("TextButton")
+    b.Size = UDim2.new(0.8, 0, 0, 35)
+    b.Position = UDim2.new(0.1, 0, 0.3, 0)
+    b.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    b.TextColor3 = Color3.new(1, 1, 1)
+    b.Text = "Execute Loadstring"
+    b.Font = Enum.Font.Gotham
+    b.Parent = f
+
+    local ls = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Farx11122/GGHUB_FREE/refs/heads/main/gghubLoader_games"))()'
+
+    b.MouseButton1Click:Connect(function()
+        loadstring(ls)()
+    end)
+
+    local cb = Instance.new("TextButton")
+    cb.Size = UDim2.new(0.8, 0, 0, 35)
+    cb.Position = UDim2.new(0.1, 0, 0.65, 0)
+    cb.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    cb.TextColor3 = Color3.new(1, 1, 1)
+    cb.Text = "Copy to Clipboard"
+    cb.Font = Enum.Font.Gotham
+    cb.Parent = f
+
+    cb.MouseButton1Click:Connect(function()
+        setclipboard(ls)
+    end)
+
+    local x = Instance.new("TextButton")
+    x.Size = UDim2.new(0, 25, 0, 25)
+    x.Position = UDim2.new(1, -30, 0, 5)
+    x.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+    x.TextColor3 = Color3.new(1, 1, 1)
+    x.Text = "X"
+    x.Font = Enum.Font.GothamBold
+    x.Parent = f
+
+    x.MouseButton1Click:Connect(function()
+        g:Destroy()
+    end)
+
+    return g
+end
+
+m()
