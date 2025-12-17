@@ -1,3 +1,2 @@
 wait(2)
-loadstring(game:HttpGet("https://pandadevelopment.net/virtual/file/6c6cc00f08e75dfe"))()
-
+loadstring(game:HttpGet("https://pandadevelopment.net/virtual/file/7d5aede7a5da9cc9"))()
